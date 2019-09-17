@@ -3,6 +3,14 @@ require 'src/dependencies'
 function love.load()
   love.window.setTitle('Sokoban')
 
+  love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT)
+
+  gFonts = {
+    ['small'] = love.graphics.newFont('fonts/cardenio_modern.otf', 16),
+    ['medium'] = love.graphics.newFont('fonts/cardenio_modern.otf', 18),
+    ['large'] = love.graphics.newFont('fonts/cardenio_modern.otf', 32)
+  }
+
   gTextures = {
     ['sheet'] = love.graphics.newImage('img/sokoban_tilesheet.png')
   }
@@ -34,5 +42,7 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.draw()
+  gStateMachine:render()
+
   displayFPS()
 end

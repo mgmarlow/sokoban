@@ -29,31 +29,34 @@ function StartState:update(dt)
 end
 
 function StartState:render()
-  -- -- title
-  -- love.graphics.setFont(gFonts['large'])
-  -- love.graphics.printf("BREAKOUT", 0, VIRTUAL_HEIGHT / 3,
-  --     VIRTUAL_WIDTH, 'center')
+  love.graphics.setColor(0, 255, 0, 255)
+  -- title
+  love.graphics.setFont(gFonts['large'])
+  love.graphics.printf("Sokoban", 0, WINDOW_HEIGHT / 3,
+    WINDOW_WIDTH, 'center')
   
-  -- -- instructions
-  -- love.graphics.setFont(gFonts['medium'])
+  -- instructions
+  love.graphics.setFont(gFonts['medium'])
 
-  -- -- if we're highlighting 1, render that option blue
-  -- if highlighted == 1 then
-  --     love.graphics.setColor(103, 255, 255, 255)
-  -- end
-  -- love.graphics.printf("START", 0, VIRTUAL_HEIGHT / 2 + 70,
-  --     VIRTUAL_WIDTH, 'center')
+  love.graphics.setColor(255, 255, 255, 255)
 
-  -- -- reset the color
-  -- love.graphics.setColor(255, 255, 255, 255)
+  -- if we're highlighting 1, render that option blue
+  if highlighted == 1 then
+    love.graphics.setColor(0, 255, 0, 255)
+  end
+  love.graphics.printf("START", 0, WINDOW_HEIGHT / 2 + 70,
+    WINDOW_WIDTH, 'center')
 
-  -- -- render option 2 blue if we're highlighting that one
-  -- if highlighted == 2 then
-  --     love.graphics.setColor(103, 255, 255, 255)
-  -- end
-  -- love.graphics.printf("HIGH SCORES", 0, VIRTUAL_HEIGHT / 2 + 90,
-  --     VIRTUAL_WIDTH, 'center')
+  -- reset the color
+  love.graphics.setColor(255, 255, 255, 255)
 
-  -- -- reset the color
-  -- love.graphics.setColor(255, 255, 255, 255)
+  -- render option 2 blue if we're highlighting that one
+  if highlighted == 2 then
+    love.graphics.setColor(0, 255, 0, 255)
+  end
+  love.graphics.printf("HIGH SCORES", 0, WINDOW_HEIGHT / 2 + 90,
+    WINDOW_WIDTH, 'center')
+
+  -- reset the color
+  love.graphics.setColor(255, 255, 255, 255)
 end

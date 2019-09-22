@@ -5,9 +5,15 @@ function Animation:init(def)
   self.interval = def.interval
   self.timer = 0
   self.currentFrame = 1
+  self.done = false
 end
 
 function Animation:update(dt)
+  if self.currentFrame == #self.frames then
+    self.done = true
+    return
+  end
+
   -- no need to update if animation is only one frame
   if #self.frames > 1 then
     self.timer = self.timer + dt
@@ -22,5 +28,11 @@ function Animation:update(dt)
 end
 
 function Animation:getCurrentFrame()
-    return self.frames[self.currentFrame]
+  return self.frames[self.currentFrame]
+end
+
+function Animation:reset()
+  self.done = false
+  self.currentFrame = 1
+  self.timer = 0
 end

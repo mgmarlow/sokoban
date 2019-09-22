@@ -27,22 +27,35 @@ local movingAnimations = {
 function Player:init(params)
   self.x = params.x
   self.y = params.y
+  -- square tiles, speed will simply move to next tile
+  self.speed = TILE_WIDTH
   self.currentAnimation = idleAnimation
 end
 
 function Player:update(dt)
-  -- TODO: add active state to animation (to prevent looping)
-  self.currentAnimation:update(dt)
+  local keyPressed = false
+
+  if self.currentAnimation.done == false then
+    self.currentAnimation:update(dt)
+  end
 
   if love.keyboard.wasPressed('left') then
     self.currentAnimation = movingAnimations.left
+    keyPressed = true
   elseif love.keyboard.wasPressed('right') then
     self.currentAnimation = movingAnimations.right
+    keyPressed = true
   elseif love.keyboard.wasPressed('up') then
     self.currentAnimation = movingAnimations.up
+    keyPressed = true
   elseif love.keyboard.wasPressed('down') then
     self.currentAnimation = movingAnimations.down
+    keyPressed = true
   else
+  end
+
+  if keyPressed == true then
+    self.currentAnimation:reset()
   end
 end
 
@@ -50,7 +63,6 @@ function Player:render()
   love.graphics.draw(
     gTextures.tilesheet,
     quads[self.currentAnimation:getCurrentFrame()],
-    -- TODO: offset
     self.x,
     self.y
   )

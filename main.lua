@@ -6,17 +6,20 @@ function love.load()
   love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT)
 
   gFonts = {
-    ['small'] = love.graphics.newFont('fonts/cardenio_modern.otf', 16),
-    ['medium'] = love.graphics.newFont('fonts/cardenio_modern.otf', 18),
-    ['large'] = love.graphics.newFont('fonts/cardenio_modern.otf', 32)
+    ['small'] = love.graphics.newFont('fonts/cardenio_modern.otf', 18),
+    ['medium'] = love.graphics.newFont('fonts/cardenio_modern.otf', 32),
+    ['large'] = love.graphics.newFont('fonts/cardenio_modern.otf', 48)
   }
 
   gTextures = {
-    ['sheet'] = love.graphics.newImage('img/sokoban_tilesheet.png')
+    ['tilesheet'] = love.graphics.newImage('img/sokoban_tilesheet.png')
   }
+
+  quads = generateQuads(gTextures.tilesheet, TILE_WIDTH, TILE_HEIGHT)
 
   gStateMachine = StateMachine {
     ['start'] = function() return StartState() end,
+    ['play'] = function() return PlayState() end
   }
   gStateMachine:change('start')
 

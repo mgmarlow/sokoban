@@ -24,9 +24,9 @@ local movingAnimations = {
   },
 }
 
-function Player:init()
-  self.x = 0
-  self.y = 0
+function Player:init(params)
+  self.x = params.x
+  self.y = params.y
   self.currentAnimation = idleAnimation
 end
 

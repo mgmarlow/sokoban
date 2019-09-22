@@ -33,7 +33,7 @@ function Player:init(params)
 end
 
 function Player:update(dt)
-  local keyPressed = false
+  local dir
 
   if self.currentAnimation.done == false then
     self.currentAnimation:update(dt)
@@ -41,21 +41,23 @@ function Player:update(dt)
 
   if love.keyboard.wasPressed('left') then
     self.currentAnimation = movingAnimations.left
-    keyPressed = true
+    dir = {x=-1, y=0}
   elseif love.keyboard.wasPressed('right') then
     self.currentAnimation = movingAnimations.right
-    keyPressed = true
+    dir = {x=1, y=0}
   elseif love.keyboard.wasPressed('up') then
     self.currentAnimation = movingAnimations.up
-    keyPressed = true
+    dir = {x=0, y=-1}
   elseif love.keyboard.wasPressed('down') then
     self.currentAnimation = movingAnimations.down
-    keyPressed = true
+    dir = {x=0, y=1}
   else
   end
 
-  if keyPressed == true then
+  if dir ~= nil then
     self.currentAnimation:reset()
+    self.x = self.x + (dir.x * self.speed)
+    self.y = self.y + (dir.y * self.speed)
   end
 end
 

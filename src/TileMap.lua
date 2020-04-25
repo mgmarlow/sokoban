@@ -31,6 +31,10 @@ end
 function TileMap:getGameObjects()
   local levelObjects = {}
 
+  local wallDef = GAME_OBJECT_DEFS['wall']
+  local boxDef = GAME_OBJECT_DEFS['box']
+  local destDef = GAME_OBJECT_DEFS['destination']
+
   for row = 1, self.height do
     for col = 1, self.width do
       local tileIndex = ((row - 1) * self.objectLayer.height) + col
@@ -39,9 +43,9 @@ function TileMap:getGameObjects()
       local x = self.xOffset + (col - 1) * TILE_WIDTH
       local y = self.yOffset + (row - 1) * TILE_HEIGHT
 
-      if quadIndex == 20 then
+      if quadIndex == wallDef.tileIndex then
         table.insert(levelObjects, GameObject(
-            GAME_OBJECT_DEFS['wall'],
+            wallDef,
             { x = x, y = y }
           )
         )
@@ -50,15 +54,15 @@ function TileMap:getGameObjects()
           x = x,
           y = y
         })
-      elseif quadIndex == 8 then
+      elseif quadIndex == boxDef.tileIndex then
         table.insert(levelObjects, GameObject(
-            GAME_OBJECT_DEFS['box'],
+            boxDef,
             { x = x, y = y }
           )
         )
-      elseif quadIndex == 42 then
+      elseif quadIndex == destDef.tileIndex then
         table.insert(levelObjects, GameObject(
-            GAME_OBJECT_DEFS['destination'],
+            destDef,
             { x = x, y = y }
           )
         )

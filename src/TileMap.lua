@@ -40,38 +40,28 @@ function TileMap:getGameObjects()
       local y = self.yOffset + (row - 1) * TILE_HEIGHT
 
       if quadIndex == 20 then
-        -- wall
-        table.insert(levelObjects, Entity {
-          x = x,
-          y = y,
-          tileIndex = quadIndex,
-          isMoveable = false,
-          isPassable = false
-        })
+        table.insert(levelObjects, GameObject(
+            GAME_OBJECT_DEFS['wall'],
+            { x = x, y = y }
+          )
+        )
       elseif quadIndex == 73 then
-        -- player start
         table.insert(levelObjects, Player {
           x = x,
           y = y
         })
       elseif quadIndex == 8 then
-        -- movable block
-        table.insert(levelObjects, Entity {
-          x = x,
-          y = y,
-          tileIndex = quadIndex,
-          isMoveable = true,
-          isPassable = false,
-        })
+        table.insert(levelObjects, GameObject(
+            GAME_OBJECT_DEFS['box'],
+            { x = x, y = y }
+          )
+        )
       elseif quadIndex == 42 then
-        -- destination tile
-        table.insert(levelObjects, Entity {
-          x = x,
-          y = y,
-          tileIndex = quadIndex,
-          isMoveable = false,
-          isPassable = true
-        })
+        table.insert(levelObjects, GameObject(
+            GAME_OBJECT_DEFS['destination'],
+            { x = x, y = y }
+          )
+        )
       end
     end
   end

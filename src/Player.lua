@@ -10,6 +10,7 @@ function Player:init(params)
   self.speed = TILE_WIDTH
 end
 
+-- StateMachine assigned in the PlayState
 function Player:update(dt)
   self.stateMachine:update(dt)
 end

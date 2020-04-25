@@ -38,16 +38,23 @@ function TileMap:getGameObjects()
 
   for row = 1, self.height do
     for col = 1, self.width do
+      local id = tostring(row) .. ":" .. tostring(col)
       local tileIndex = ((row - 1) * self.objectLayer.height) + col
       local quadIndex = self.objectLayer.data[tileIndex]
 
       local x = self.xOffset + (col - 1) * TILE_WIDTH
       local y = self.yOffset + (row - 1) * TILE_HEIGHT
 
+      local gameObjectParams = {
+        id = id,
+        x = x,
+        y = y
+      }
+
       if quadIndex == wallDef.tileIndex then
         table.insert(levelObjects, GameObject(
             wallDef,
-            { x = x, y = y }
+            gameObjectParams
           )
         )
       elseif quadIndex == 73 then
@@ -60,13 +67,13 @@ function TileMap:getGameObjects()
       elseif quadIndex == boxDef.tileIndex then
         table.insert(levelObjects, GameObject(
             boxDef,
-            { x = x, y = y }
+            gameObjectParams
           )
         )
       elseif quadIndex == destDef.tileIndex then
         table.insert(levelObjects, GameObject(
             destDef,
-            { x = x, y = y }
+            gameObjectParams
           )
         )
       end

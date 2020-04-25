@@ -59,17 +59,30 @@ function Player:update(dt, gameObjects)
 
   if dir ~= nil then
     self.currentAnimation:reset()
-    prevX = self.x
-    prevY = self.y
+
+    -- Retain previous position for collisions
+    local prevX = self.x
+    local prevY = self.y
 
     self.x = self.x + (dir.x * self.speed)
     self.y = self.y + (dir.y * self.speed)
 
     for _, object in pairs(gameObjects) do
       if object:collides(self) then
-        self.x = prevX
-        self.y = prevY
-        break
+        -- TODO: Clean this up. How should different types
+        -- of game objects be managed?
+        if object.isMoveable then
+          success = object:move(dir, gameObjects)
+          if not success then
+            self.x = prevX
+            self.y = prevY
+            break
+          end
+        else
+          self.x = prevX
+          self.y = prevY
+          break
+        end
       end
     end
   end

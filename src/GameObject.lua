@@ -6,7 +6,9 @@ function GameObject:init(def, params)
   self.height = def.height
   self.isMoveable = def.isMoveable
   self.isSolid = def.isSolid
+  self.isMoving = false
 
+  self.id = params.id
   self.x = params.x
   self.y = params.y
 end
@@ -21,6 +23,24 @@ function GameObject:render()
     self.x,
     self.y
   )
+end
+
+function GameObject:move(dir, gameObjects)
+  local prevX = self.x
+  local prevY = self.y
+
+  self.x = self.x + (dir.x * TILE_WIDTH)
+  self.y = self.y + (dir.y * TILE_HEIGHT)
+
+  for _, object in pairs(gameObjects) do
+    if object.id ~= self.id and object:collides(self) then
+      self.x = prevX
+      self.y = prevY
+      return false
+    end
+  end
+
+  return true
 end
 
 function GameObject:collides(other)

@@ -14,7 +14,6 @@ function PlayerIdleState:update(dt)
   if love.keyboard.wasPressed('left') or love.keyboard.wasPressed('right') or
       love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
         self.player:changeState('walk')
-        -- Call update again from new state
         self.player:update(dt)
   end
 end

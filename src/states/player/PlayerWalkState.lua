@@ -71,7 +71,7 @@ function PlayerWalkState:update(dt)
 
         self.player.x = prevX
         self.player.y = prevY
-        break
+        return
       end
     end
   end

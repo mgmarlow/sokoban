@@ -2,10 +2,10 @@ Class = require 'lib/class'
 
 require 'levels/levelZero'
 
+require 'src/constants'
 require 'src/game_objects'
 require 'src/util'
 require 'src/StateMachine'
-require 'src/constants'
 require 'src/TileMap'
 require 'src/Animation'
 require 'src/Player'

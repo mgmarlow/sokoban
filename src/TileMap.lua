@@ -29,6 +29,7 @@ function TileMap:render()
 end
 
 function TileMap:getGameObjects()
+  local player
   local levelObjects = {}
 
   local wallDef = GAME_OBJECT_DEFS['wall']
@@ -50,10 +51,12 @@ function TileMap:getGameObjects()
           )
         )
       elseif quadIndex == 73 then
-        table.insert(levelObjects, Player {
+        -- Keep the player separate so it can be instantiated
+        -- with knowledge of other game objects
+        player = Player {
           x = x,
           y = y
-        })
+        }
       elseif quadIndex == boxDef.tileIndex then
         table.insert(levelObjects, GameObject(
             boxDef,
@@ -70,5 +73,5 @@ function TileMap:getGameObjects()
     end
   end
 
-  return levelObjects
+  return player, levelObjects
 end

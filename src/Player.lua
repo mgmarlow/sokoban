@@ -27,12 +27,15 @@ local movingAnimations = {
 function Player:init(params)
   self.x = params.x
   self.y = params.y
+  self.width = TILE_WIDTH
+  self.height = TILE_HEIGHT
+
   -- square tiles, speed will simply move to next tile
   self.speed = TILE_WIDTH
   self.currentAnimation = idleAnimation
 end
 
-function Player:update(dt)
+function Player:update(dt, gameObjects)
   local dir
 
   if self.currentAnimation.done == false then
@@ -56,8 +59,19 @@ function Player:update(dt)
 
   if dir ~= nil then
     self.currentAnimation:reset()
+    prevX = self.x
+    prevY = self.y
+
     self.x = self.x + (dir.x * self.speed)
     self.y = self.y + (dir.y * self.speed)
+
+    for _, object in pairs(gameObjects) do
+      if object:collides(self) then
+        self.x = prevX
+        self.y = prevY
+        break
+      end
+    end
   end
 end
 

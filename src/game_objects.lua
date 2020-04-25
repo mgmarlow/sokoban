@@ -2,16 +2,22 @@ GAME_OBJECT_DEFS = {
   ['wall'] = {
     tileIndex = 20,
     isMoveable = false,
-    isPassable = false
+    isSolid = true,
+    width = TILE_WIDTH ,
+    height = TILE_HEIGHT
   },
   ['box'] = {
     tileIndex = 8,
     isMoveable = true,
-    isPassable = false
+    isSolid = true,
+    width = TILE_WIDTH,
+    height = TILE_HEIGHT
   },
   ['destination'] = {
     tileIndex = 42,
     isMoveable = false,
-    isPassable = true
+    isSolid = false,
+    width = TILE_WIDTH,
+    height = TILE_HEIGHT
   }
 }

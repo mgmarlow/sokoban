@@ -3,8 +3,14 @@ TileMap = Class{}
 function TileMap:init(params)
   local tilemap = params.source
 
-  self.width = 8
-  self.height = 8
+  -- w/h in number of tiles
+  self.width = tilemap.width
+  self.height = tilemap.height
+  self.tileSize = TILE_WIDTH
+
+  self.pixelWidth = self.width * self.tileSize
+  self.pixelHeight = self.height * self.tileSize
+
   self.mapLayer = tilemap.layers[1]
   self.objectLayer = tilemap.layers[2]
 

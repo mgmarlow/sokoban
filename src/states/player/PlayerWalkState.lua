@@ -19,8 +19,9 @@ local movingAnimations = {
   },
 }
 
-function PlayerWalkState:init(player, gameObjects)
+function PlayerWalkState:init(player, tilemap, gameObjects)
   self.player = player
+  self.tilemap = tilemap
   self.gameObjects = gameObjects
 end
 
@@ -56,6 +57,18 @@ function PlayerWalkState:update(dt)
     self.player.x = self.player.x + (dir.x * self.player.speed)
     self.player.y = self.player.y + (dir.y * self.player.speed)
 
+    -- Check boundary collisions
+    -- Sub 1 from bounds due to 64px (exact tile size) movement
+    if self.player.x <= self.tilemap.xOffset - 1 or
+       self.player.x > self.tilemap.xOffset + self.tilemap.pixelWidth - 1 or
+       self.player.y <= self.tilemap.yOffset - 1 or
+       self.player.y > self.tilemap.yOffset + self.tilemap.pixelHeight - 1 then
+         self.player.x = prevX
+         self.player.y = prevY
+         return
+    end
+
+    -- Check object collisions
     for _, object in pairs(self.gameObjects) do
       if object:collides(self.player) then
         if object.isMoveable then

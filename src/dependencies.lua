@@ -1,6 +1,8 @@
 Class = require 'lib/class'
 
+require 'levels/tileset'
 require 'levels/levelZero'
+require 'levels/levelOne'
 
 require 'src/constants'
 require 'src/game_objects'

@@ -1,6 +1,6 @@
-TileMap = Class{}
+Level = Class{}
 
-function TileMap:init(params)
+function Level:init(params)
   local tilemap = params.source
 
   -- w/h in number of tiles
@@ -17,9 +17,18 @@ function TileMap:init(params)
   -- map layer w/h should always match object layer w/h
   self.xOffset = (WINDOW_WIDTH - (TILE_WIDTH * self.width)) / 2
   self.yOffset = (WINDOW_HEIGHT - (TILE_HEIGHT * self.height)) / 2
+
+  -- Convert tilemap into game objects
+  self:initializeGameObjects()
 end
 
-function TileMap:render()
+function Level:update(dt)
+  for i = 1, #self.gameObjects do
+    self.gameObjects[i]:update(dt)
+  end
+end
+
+function Level:render()
   for row = 1, self.height do
     for col = 1, self.width do
       local tileIndex = ((row - 1) * self.mapLayer.height) + col
@@ -32,11 +41,15 @@ function TileMap:render()
       )
     end
   end
+
+  for i = 1, #self.gameObjects do
+    self.gameObjects[i]:render()
+  end
 end
 
-function TileMap:getGameObjects()
-  local player
-  local levelObjects = {}
+-- TODO: Move this into its own file
+function Level:initializeGameObjects()
+  self.gameObjects = {}
 
   local wallDef = GAME_OBJECT_DEFS['wall']
   local boxDef = GAME_OBJECT_DEFS['box']
@@ -58,26 +71,24 @@ function TileMap:getGameObjects()
       }
 
       if quadIndex == wallDef.tileIndex then
-        table.insert(levelObjects, GameObject(
+        table.insert(self.gameObjects, GameObject(
             wallDef,
             gameObjectParams
           )
         )
       elseif quadIndex == 73 then
-        -- Keep the player separate so it can be instantiated
-        -- with knowledge of other game objects
-        player = Player {
-          x = x,
-          y = y
-        }
+        -- Don't append the player to list of game objects
+        -- since it can't interact with itself.
+        self.playerX = x
+        self.playerY = y
       elseif quadIndex == boxDef.tileIndex then
-        table.insert(levelObjects, GameObject(
+        table.insert(self.gameObjects, GameObject(
             boxDef,
             gameObjectParams
           )
         )
       elseif quadIndex == destDef.tileIndex then
-        table.insert(levelObjects, GameObject(
+        table.insert(self.gameObjects, GameObject(
             destDef,
             gameObjectParams
           )
@@ -85,6 +96,4 @@ function TileMap:getGameObjects()
       end
     end
   end
-
-  return player, levelObjects
 end

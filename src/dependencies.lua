@@ -1,6 +1,5 @@
 Class = require 'lib/class'
 
-require 'levels/tileset'
 require 'levels/levelZero'
 require 'levels/levelOne'
 
@@ -8,7 +7,7 @@ require 'src/constants'
 require 'src/game_objects'
 require 'src/util'
 require 'src/StateMachine'
-require 'src/TileMap'
+require 'src/Level'
 require 'src/Animation'
 require 'src/Player'
 require 'src/Entity'

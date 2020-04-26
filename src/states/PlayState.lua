@@ -1,34 +1,26 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:enter(params)
-  -- Consider making player and gameobjects part
-  -- of the tilemap (and rename to level).
-  -- This may be necessary for reset functionality.
-  self.tilemap = TileMap{source = params.tilemap}
-  self.player, self.gameObjects = self.tilemap:getGameObjects()
+  self.level = Level{source = params.tilemap}
+  self.player = Player {
+    x = self.level.playerX,
+    y = self.level.playerY
+  }
 
   self.player.stateMachine = StateMachine {
-    ['walk'] = function() return PlayerWalkState(self.player, self.tilemap, self.gameObjects) end,
+    ['walk'] = function() return PlayerWalkState(self.player, self.level) end,
     ['idle'] = function() return PlayerIdleState(self.player) end,
-    ['push'] = function() return PlayerPushState(self.player, self.gameObjects) end,
+    ['push'] = function() return PlayerPushState(self.player, self.level) end,
   }
   self.player:changeState('idle')
 end
 
 function PlayState:update(dt)
-  for i = 1, #self.gameObjects do
-    self.gameObjects[i]:update(dt)
-  end
-
+  self.level:update(dt)
   self.player:update(dt)
 end
 
 function PlayState:render()
-  self.tilemap:render()
-
-  for i = 1, #self.gameObjects do
-    self.gameObjects[i]:render()
-  end
-
+  self.level:render()
   self.player:render()
 end

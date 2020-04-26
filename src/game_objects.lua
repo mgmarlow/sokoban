@@ -3,6 +3,7 @@ GAME_OBJECT_DEFS = {
     tileIndex = 20,
     isMoveable = false,
     isSolid = true,
+    isVictory = false,
     width = TILE_WIDTH ,
     height = TILE_HEIGHT
   },
@@ -10,6 +11,7 @@ GAME_OBJECT_DEFS = {
     tileIndex = 8,
     isMoveable = true,
     isSolid = true,
+    isVictory = false,
     width = TILE_WIDTH,
     height = TILE_HEIGHT
   },
@@ -17,6 +19,7 @@ GAME_OBJECT_DEFS = {
     tileIndex = 42,
     isMoveable = false,
     isSolid = false,
+    isVictory = true,
     width = TILE_WIDTH,
     height = TILE_HEIGHT
   }

@@ -1,8 +1,8 @@
 PlayerPushState = Class{__includes = BaseState}
 
-function PlayerPushState:init(player, gameObjects)
+function PlayerPushState:init(player, level)
   self.player = player
-  self.gameObjects = gameObjects
+  self.level = level
 end
 
 function PlayerPushState:enter(params)
@@ -13,7 +13,7 @@ function PlayerPushState:enter(params)
 end
 
 function PlayerPushState:update(dt)
-  local success = self.target:move(self.dir, self.gameObjects)
+  local success = self.target:move(self.dir, self.level.gameObjects)
 
   if not success then
     self.player.x = self.prevX

@@ -6,7 +6,7 @@ function GameObject:init(def, params)
   self.height = def.height
   self.isMoveable = def.isMoveable
   self.isSolid = def.isSolid
-  self.isMoving = false
+  self.isVictory = def.isVictory
 
   self.id = params.id
   self.x = params.x

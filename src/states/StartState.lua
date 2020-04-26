@@ -1,10 +1,9 @@
 StartState = Class{__includes = BaseState}
 
 function StartState:update(dt)
-  -- confirm whichever option we have selected to change screens
   if love.keyboard.wasPressed('z') then
     gStateMachine:change('play', {
-      tilemap = LEVEL_ONE
+      levelNumber = 1
     })
   end
 

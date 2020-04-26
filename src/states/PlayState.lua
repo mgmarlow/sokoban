@@ -1,7 +1,8 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:enter(params)
-  self.tilemap = params.tilemap
+  self.levelNumber = params.levelNumber
+  self.tilemap = params.tilemap or gLoader:load(self.levelNumber)
 
   if params.level and params.player then
     self.level = params.level
@@ -26,7 +27,9 @@ function PlayState:update(dt)
 
   if self.level.victoriesNeeded > 0 and
      self.level.victoriesNeeded == self.level.victories then
-       gStateMachine:change('victory')
+       gStateMachine:change('victory', {
+         levelNumber = self.levelNumber
+       })
   end
 
   self.level:update(dt)

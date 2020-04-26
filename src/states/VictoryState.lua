@@ -1,10 +1,25 @@
 VictoryState = Class{__includes = BaseState}
 
+-- TODO: remove this with level select. This will
+-- just loop levels as they are completed.
+local function getNextLevel(n)
+  if n > gLoader.numLevels then
+    return 1
+  end
+
+  return n
+end
+
+function VictoryState:enter(params)
+  self.levelNumber = params.levelNumber
+end
+
 function VictoryState:update(dt)
-  -- confirm whichever option we have selected to change screens
+  local next = getNextLevel(self.levelNumber + 1)
+
   if love.keyboard.wasPressed('z') then
     gStateMachine:change('play', {
-      tilemap = LEVEL_ONE
+      levelNumber = next
     })
   end
 

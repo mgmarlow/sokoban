@@ -5,6 +5,8 @@ function love.load()
 
   love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT)
 
+  gLoader = LevelLoader()
+
   gFonts = {
     ['small'] = love.graphics.newFont('fonts/cardenio_modern.otf', 18),
     ['medium'] = love.graphics.newFont('fonts/cardenio_modern.otf', 32),

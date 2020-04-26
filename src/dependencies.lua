@@ -1,11 +1,9 @@
 Class = require 'lib/class'
 
-require 'levels/levelZero'
-require 'levels/levelOne'
-
 require 'src/constants'
 require 'src/game_objects'
 require 'src/util'
+require 'src/LevelLoader'
 require 'src/StateMachine'
 require 'src/Level'
 require 'src/Animation'

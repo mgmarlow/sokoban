@@ -2,12 +2,26 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:enter(params)
   self.tilemap = params.tilemap
-  self:initializeLevel()
+
+  if params.level and params.player then
+    self.level = params.level
+    self.player = params.player
+  else
+    self:initializeLevel()
+  end
 end
 
 function PlayState:update(dt)
   if love.keyboard.wasPressed('r') then
     self:reset()
+  end
+
+  if love.keyboard.wasPressed('escape') then
+    gStateMachine:change('pause', {
+      tilemap = self.tilemap,
+      player = self.player,
+      level = self.level
+    })
   end
 
   if self.level.victoriesNeeded > 0 and

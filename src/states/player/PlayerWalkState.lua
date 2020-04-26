@@ -69,7 +69,7 @@ function PlayerWalkState:update(dt)
 
     -- Check object collisions
     for _, object in pairs(self.level.gameObjects) do
-      if object:collides(self.player) then
+      if object:collides(self.player) and object.isSolid then
         if object.isMoveable then
           self.player:changeState('push', {
             dir = dir,

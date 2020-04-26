@@ -66,6 +66,9 @@ function GameObject:move(dir, level)
       return false
     end
 
+    -- TODO: Decrement victories if moved off of dest. tile
+    -- Instead, how many objects are on victory tiles on every
+    -- frame? Use this instead of a counter.
     if state == 'victory' then
       object.satisifed = true
       level.victories = level.victories + 1
@@ -76,7 +79,7 @@ function GameObject:move(dir, level)
 end
 
 function GameObject:collides(other)
-  if self.x > other.x + other.width - 1 or other.x > self.x + self.width -1 then
+  if self.x > other.x + other.width - 1 or other.x > self.x + self.width - 1 then
     return false
   end
 

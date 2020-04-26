@@ -26,8 +26,13 @@ function Level:init(params)
 end
 
 function Level:update(dt)
-  for i = 1, #self.gameObjects do
-    self.gameObjects[i]:update(dt)
+  -- TODO: resolve victories here rather than on collisions
+  -- since we need to keep track of blocks moved off of
+  -- the destination square.
+  local victoryCount = 0
+
+  for _, gameObject in pairs(self.gameObjects) do
+    gameObject:update(dt)
   end
 end
 

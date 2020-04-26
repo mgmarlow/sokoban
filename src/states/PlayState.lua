@@ -16,6 +16,11 @@ function PlayState:enter(params)
 end
 
 function PlayState:update(dt)
+  if self.level.victoriesNeeded > 0 and
+     self.level.victoriesNeeded == self.level.victories then
+       gStateMachine:change('victory')
+  end
+
   self.level:update(dt)
   self.player:update(dt)
 end

@@ -18,6 +18,9 @@ function Level:init(params)
   self.xOffset = (WINDOW_WIDTH - (TILE_WIDTH * self.width)) / 2
   self.yOffset = (WINDOW_HEIGHT - (TILE_HEIGHT * self.height)) / 2
 
+  self.victories = 0
+  self.victoriesNeeded = 0
+
   -- Convert tilemap into game objects
   self:initializeGameObjects()
 end
@@ -88,6 +91,7 @@ function Level:initializeGameObjects()
           )
         )
       elseif quadIndex == destDef.tileIndex then
+        self.victoriesNeeded = self.victoriesNeeded + 1
         table.insert(self.gameObjects, GameObject(
             destDef,
             gameObjectParams

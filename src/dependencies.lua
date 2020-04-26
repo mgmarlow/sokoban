@@ -22,3 +22,4 @@ require 'src/states/player/PlayerPushState'
 
 require 'src/states/StartState'
 require 'src/states/PlayState'
+require 'src/states/VictoryState'

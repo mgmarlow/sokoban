@@ -13,7 +13,7 @@ function PlayerPushState:enter(params)
 end
 
 function PlayerPushState:update(dt)
-  local success = self.target:move(self.dir, self.level.gameObjects)
+  local success = self.target:move(self.dir, self.level)
 
   if not success then
     self.player.x = self.prevX

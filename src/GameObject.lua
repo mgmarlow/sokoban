@@ -11,6 +11,8 @@ function GameObject:init(def, params)
   self.id = params.id
   self.x = params.x
   self.y = params.y
+
+  self.satisifed = false
 end
 
 function GameObject:update(dt)
@@ -25,18 +27,48 @@ function GameObject:render()
   )
 end
 
-function GameObject:move(dir, gameObjects)
+function GameObject:move(dir, level)
   local prevX = self.x
   local prevY = self.y
 
   self.x = self.x + (dir.x * TILE_WIDTH)
   self.y = self.y + (dir.y * TILE_HEIGHT)
 
-  for _, object in pairs(gameObjects) do
-    if object.id ~= self.id and object:collides(self) then
+  for _, object in pairs(level.gameObjects) do
+    -- Lua lacks a continue statement, so use an anon function
+    -- instead to prevent breaking loop entirely.
+    local state = (function()
+      if object.id == self.id or object.satisfied then
+        return 'skip'
+      end
+
+      -- TODO: abstract this, same logic is repeated in player
+      -- walk state.
+      if self.x <= level.xOffset - 1 or
+        self.x > level.xOffset + level.pixelWidth - 1 or
+        self.y <= level.yOffset - 1 or
+        self.y > level.yOffset + level.pixelHeight - 1 then
+          return 'blocked'
+      end
+
+      if object:collides(self) and object.isSolid then
+        return 'blocked'
+      end
+
+      if object:collides(self) and object.isVictory then
+        return 'victory'
+      end
+    end)()
+
+    if state == 'blocked' then
       self.x = prevX
       self.y = prevY
       return false
+    end
+
+    if state == 'victory' then
+      object.satisifed = true
+      level.victories = level.victories + 1
     end
   end
 
@@ -44,10 +76,6 @@ function GameObject:move(dir, gameObjects)
 end
 
 function GameObject:collides(other)
-  if not self.isSolid then
-    return false
-  end
-
   if self.x > other.x + other.width - 1 or other.x > self.x + self.width -1 then
     return false
   end

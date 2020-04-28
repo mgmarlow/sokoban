@@ -11,8 +11,6 @@ function GameObject:init(def, params)
   self.id = params.id
   self.x = params.x
   self.y = params.y
-
-  self.satisifed = false
 end
 
 function GameObject:update(dt)
@@ -28,8 +26,17 @@ function GameObject:render()
 end
 
 function GameObject:move(dir, level)
+  local prevCollision = nil
+  local nextCollision = nil
   local prevX = self.x
   local prevY = self.y
+
+  -- Keep track of previous collisions
+  for _, object in pairs(level.gameObjects) do
+    if object.id ~= self.id and object:collides(self) then
+      prevCollision = object
+    end
+  end
 
   self.x = self.x + (dir.x * TILE_WIDTH)
   self.y = self.y + (dir.y * TILE_HEIGHT)
@@ -38,7 +45,7 @@ function GameObject:move(dir, level)
     -- Lua lacks a continue statement, so use an anon function
     -- instead to prevent breaking loop entirely.
     local state = (function()
-      if object.id == self.id or object.satisfied then
+      if object.id == self.id then
         return 'skip'
       end
 
@@ -55,8 +62,8 @@ function GameObject:move(dir, level)
         return 'blocked'
       end
 
-      if object:collides(self) and object.isVictory then
-        return 'victory'
+      if object:collides(self) then
+        return 'valid'
       end
     end)()
 
@@ -66,13 +73,20 @@ function GameObject:move(dir, level)
       return false
     end
 
-    -- TODO: Decrement victories if moved off of dest. tile
-    -- Instead, how many objects are on victory tiles on every
-    -- frame? Use this instead of a counter.
-    if state == 'victory' then
-      object.satisifed = true
-      level.victories = level.victories + 1
+    if state == 'valid' then
+      nextCollision = object
+      -- Break early since only 1 object can collide
+      -- with one other.
+      break
     end
+  end
+
+  if prevCollision ~= nil and prevCollision.isVictory then
+    level.victories = level.victories - 1
+  end
+
+  if nextCollision and nextCollision.isVictory then
+    level.victories = level.victories + 1
   end
 
   return true

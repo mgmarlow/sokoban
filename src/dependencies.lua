@@ -1,7 +1,7 @@
 Class = require 'lib/class'
 
 require 'src/constants'
-require 'src/game_objects'
+require 'src/data/gameObjects'
 require 'src/util'
 require 'src/LevelLoader'
 require 'src/StateMachine'

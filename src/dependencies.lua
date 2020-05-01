@@ -1,4 +1,5 @@
 Class = require 'lib/class'
+Timer = require 'lib/timer'
 
 require 'src/constants'
 require 'src/data/gameObjects'

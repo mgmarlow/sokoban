@@ -8,16 +8,17 @@ end
 function PlayerPushState:enter(params)
   self.dir = params.dir
   self.target = params.target
-  self.prevX = params.prevX
-  self.prevY = params.prevY
+  self.nextPlayer = params.nextPlayer
 end
 
 function PlayerPushState:update(dt)
   local success = self.target:move(self.dir, self.level)
 
-  if not success then
-    self.player.x = self.prevX
-    self.player.y = self.prevY
+  if success then
+    Timer.tween(0.1, self.player, {
+      x=self.nextPlayer.x,
+      y=self.nextPlayer.y
+    })
   end
 
   self.player:changeState('walk')

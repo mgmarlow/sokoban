@@ -121,3 +121,10 @@ function Level:initializeGameObjects()
     end
   end
 end
+
+function Level:outsideBounds(x, y)
+  return x <= self.xOffset - 1 or
+         x > self.xOffset + self.pixelWidth - 1 or
+         y <= self.yOffset - 1 or
+         y > self.yOffset + self.pixelHeight - 1
+end

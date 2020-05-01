@@ -25,7 +25,7 @@ function PlayerWalkState:init(player, level)
 end
 
 function PlayerWalkState:update(dt)
-   local dir
+  local dir
 
   if self.player.currentAnimation.done == false then
     self.player.currentAnimation:update(dt)
@@ -46,47 +46,43 @@ function PlayerWalkState:update(dt)
   else
   end
 
-  if dir ~= nil then
-    self.player.currentAnimation:reset()
+  if dir == nil then
+    return
+  end
 
-    -- Retain previous position for collisions
-    local prevX = self.player.x
-    local prevY = self.player.y
+  self.player.currentAnimation:reset()
 
-    self.player.x = self.player.x + (dir.x * self.player.speed)
-    self.player.y = self.player.y + (dir.y * self.player.speed)
+  local nextPlayer = {
+    x=self.player.x + (dir.x * self.player.speed),
+    y=self.player.y + (dir.y * self.player.speed),
+    width=self.player.width,
+    height=self.player.height
+  }
 
-    -- Check boundary collisions
-    -- Sub 1 from bounds due to 64px (exact tile size) movement
-    if self.player.x <= self.level.xOffset - 1 or
-       self.player.x > self.level.xOffset + self.level.pixelWidth - 1 or
-       self.player.y <= self.level.yOffset - 1 or
-       self.player.y > self.level.yOffset + self.level.pixelHeight - 1 then
-         self.player.x = prevX
-         self.player.y = prevY
-         return
-    end
+  if self.level:outsideBounds(nextPlayer.x, nextPlayer.y) then
+      -- Prevent movement
+    return
+  end
 
-    -- Check object collisions
-    for _, object in pairs(self.level.gameObjects) do
-      if object:collides(self.player) and object.isSolid then
-        if object.isMoveable then
-          self.player:changeState('push', {
-            dir = dir,
-            target = object,
-            prevX = prevX,
-            prevY = prevY
-          })
-          self.player:update(dt)
-          return
-        end
-
-        self.player.x = prevX
-        self.player.y = prevY
+  -- Check object collisions
+  for _, object in pairs(self.level.gameObjects) do
+    if object:collides(nextPlayer) and object.isSolid then
+      if object.isMoveable then
+        self.player:changeState('push', {
+          dir = dir,
+          target = object,
+          nextPlayer = nextPlayer
+        })
+        self.player:update(dt)
         return
       end
+
+      -- Prevent movement
+      return
     end
   end
+
+  Timer.tween(0.1, self.player, {x=nextPlayer.x, y=nextPlayer.y})
 end
 
 function PlayerWalkState:render()

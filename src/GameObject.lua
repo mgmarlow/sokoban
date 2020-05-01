@@ -50,13 +50,8 @@ function GameObject:move(dir, level)
         return 'skip'
       end
 
-      -- TODO: abstract this, same logic is repeated in player
-      -- walk state.
-      if self.x <= level.xOffset - 1 or
-        self.x > level.xOffset + level.pixelWidth - 1 or
-        self.y <= level.yOffset - 1 or
-        self.y > level.yOffset + level.pixelHeight - 1 then
-          return 'blocked'
+      if level:outsideBounds(self.x, self.y) then
+        return 'blocked'
       end
 
       if object:collides(self) and object.isSolid then

@@ -11,7 +11,7 @@
 
 GAME_OBJECT_DEFS = {
   ['wall'] = {
-    tileIndex = 20,
+    tileIndex = {20, 7, 2},
     isMoveable = false,
     isSolid = true,
     isVictory = false,

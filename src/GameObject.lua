@@ -1,7 +1,7 @@
 GameObject = Class{}
 
 function GameObject:init(def, params)
-  self.tileIndex = def.tileIndex
+  -- self.tileIndex = def.tileIndex
   self.width = def.width
   self.height = def.height
   self.isMoveable = def.isMoveable
@@ -11,6 +11,7 @@ function GameObject:init(def, params)
   self.id = params.id
   self.x = params.x
   self.y = params.y
+  self.tileIndex = params.tileIndex
 end
 
 function GameObject:update(dt)

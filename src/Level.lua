@@ -1,5 +1,19 @@
 Level = Class{}
 
+local function contains(source, value)
+  if type(source) == 'table' then
+    for i = 1, #source do
+      if source[i] == value then 
+         return true
+      end
+    end
+
+    return false
+  end
+
+  return source == value
+end
+
 function Level:init(params)
   local tilemap = params.source
 
@@ -75,10 +89,11 @@ function Level:initializeGameObjects()
       local gameObjectParams = {
         id = id,
         x = x,
-        y = y
+        y = y,
+        tileIndex = quadIndex
       }
 
-      if quadIndex == wallDef.tileIndex then
+      if contains(wallDef.tileIndex, quadIndex) then
         table.insert(self.gameObjects, GameObject(
             wallDef,
             gameObjectParams
@@ -89,13 +104,13 @@ function Level:initializeGameObjects()
         -- since it can't interact with itself.
         self.playerX = x
         self.playerY = y
-      elseif quadIndex == boxDef.tileIndex then
+      elseif contains(boxDef.tileIndex, quadIndex) then
         table.insert(self.gameObjects, GameObject(
             boxDef,
             gameObjectParams
           )
         )
-      elseif quadIndex == destDef.tileIndex then
+      elseif contains(destDef.tileIndex, quadIndex) then
         self.victoriesNeeded = self.victoriesNeeded + 1
         table.insert(self.gameObjects, GameObject(
             destDef,

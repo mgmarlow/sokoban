@@ -10,9 +10,9 @@ Currently only available for Windows.
 
 **Windows 10 build instructions**:
 
-1. Download sokoban_v0.1.zip
-2. Extract sokoban_v0.1.zip into a new directory, sokoban_v0.1
-3. Run sokoban.exe
+1. Download `sokoban.zip`
+2. Extract `sokoban.zip` into a new directory
+3. Open the new directory and run `sokoban.exe`
 
 ## Todos
 

@@ -29,8 +29,6 @@ end
 function GameObject:move(dir, level)
   local prevCollision = nil
   local nextCollision = nil
-  local prevX = self.x
-  local prevY = self.y
 
   -- Keep track of previous collisions
   for _, object in pairs(level.gameObjects) do
@@ -39,8 +37,12 @@ function GameObject:move(dir, level)
     end
   end
 
-  self.x = self.x + (dir.x * TILE_WIDTH)
-  self.y = self.y + (dir.y * TILE_HEIGHT)
+  local nextObject = {
+    x=self.x + (dir.x * TILE_WIDTH),
+    y=self.y + (dir.y * TILE_HEIGHT),
+    width=self.width,
+    height=self.height
+  }
 
   for _, object in pairs(level.gameObjects) do
     -- Lua lacks a continue statement, so use an anon function
@@ -50,22 +52,20 @@ function GameObject:move(dir, level)
         return 'skip'
       end
 
-      if level:outsideBounds(self.x, self.y) then
+      if level:outsideBounds(nextObject.x, nextObject.y) then
         return 'blocked'
       end
 
-      if object:collides(self) and object.isSolid then
+      if object:collides(nextObject) and object.isSolid then
         return 'blocked'
       end
 
-      if object:collides(self) then
+      if object:collides(nextObject) then
         return 'valid'
       end
     end)()
 
     if state == 'blocked' then
-      self.x = prevX
-      self.y = prevY
       return false
     end
 
@@ -84,6 +84,8 @@ function GameObject:move(dir, level)
   if nextCollision and nextCollision.isVictory then
     level.victories = level.victories + 1
   end
+
+  Timer.tween(0.1, self, {x=nextObject.x, y=nextObject.y})
 
   return true
 end

@@ -15,15 +15,20 @@ function PlayerPushState:update(dt)
   local moveable, nextObjectPos = self.target:move(self.dir, self.level)
 
   if moveable then
-    Signal.emit('object.move', nextObjectPos)
-    Signal.emit('player.move', self.nextPlayerPos)
-    -- TODO:
-    -- Signal.emit('move', {
-    --   playerFrom=,
-    --   playerTo=self.nextPlayerPos,
-    --   interactFrom=,
-    --   interactTo=nextObjectPos
-    -- })
+    Signal.emit('move', {
+      actions={
+        {
+          type='object.move',
+          -- TODO: add prev pos
+          payload=nextObjectPos
+        },
+        {
+          type='player.move',
+          -- TODO: add prev pos
+          payload=self.nextPlayerPos
+        }
+      }
+    })
   end
 
   self.player:changeState('walk')

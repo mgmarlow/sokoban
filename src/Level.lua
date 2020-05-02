@@ -32,6 +32,8 @@ function Level:init(params)
   self.xOffset = (WINDOW_WIDTH - (TILE_WIDTH * self.width)) / 2
   self.yOffset = (WINDOW_HEIGHT - (TILE_HEIGHT * self.height)) / 2
 
+  self.moveRegistry = MoveRegistry{}
+
   self.victories = 0
   self.victoriesNeeded = 0
 
@@ -48,17 +50,14 @@ function Level:init(params)
 end
 
 function Level:update(dt)
-  -- TODO: resolve victories here rather than on collisions
-  -- since we need to keep track of blocks moved off of
-  -- the destination square.
-  local victoryCount = 0
-
   for _, gameObject in pairs(self.gameObjects) do
     gameObject:update(dt)
   end
 end
 
 function Level:render()
+  self.moveRegistry:render()
+
   for row = 1, self.height do
     for col = 1, self.width do
       local tileIndex = ((row - 1) * self.mapLayer.height) + col
@@ -75,6 +74,15 @@ function Level:render()
   for i = 1, #self.gameObjects do
     self.gameObjects[i]:render()
   end
+end
+
+function Level:exit()
+  self.moveRegistry:exit()
+end
+
+function Level:victorySatisfied()
+  return self.victoriesNeeded > 0 and
+         self.victoriesNeeded == self.victories
 end
 
 -- TODO: Move this into its own file

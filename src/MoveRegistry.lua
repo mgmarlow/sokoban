@@ -1,15 +1,35 @@
 MoveRegistry = Class{}
 
+local function delegateMove(payload)
+  -- todo
+end
+
 function MoveRegistry:init()
   self.moves = {}
 
-  Signal.register('move', function(payload)
+  self.handler = function(payload)
     table.insert(self.moves, payload)
-  end)
+
+    for i, action in ipairs(payload.actions) do
+      Signal.emit(action.type, action.payload)
+    end
+  end
+
+  Signal.register('move', self.handler)
+end
+
+function MoveRegistry:exit()
+  Signal.remove('move', self.handler)
 end
 
 function MoveRegistry:undo()
-  local latest = table.remove(self.moves)
+  -- TODO: unpack and delegate move
+  -- local latest = table.remove(self.moves)
+  -- Signal.emit('undo.move', latest)
+end
 
-  Signal.emit('undo.move', latest)
+function MoveRegistry:render()
+  love.graphics.setColor(0, 255, 0, 255)
+  love.graphics.print('Moves: ' .. tostring(#self.moves), 5, 5)
+  love.graphics.setColor(255, 255, 255, 255)
 end

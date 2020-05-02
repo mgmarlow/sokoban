@@ -19,6 +19,7 @@ Currently only available for Windows.
 - [x] build automation
 - [ ] undo
 - [ ] dev console level selection
+- [ ] push block into water tile to allow passage
 - [ ] portal block types
 - [ ] more juice
 - [ ] more levels

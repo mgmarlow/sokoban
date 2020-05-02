@@ -25,11 +25,10 @@ function PlayState:update(dt)
     })
   end
 
-  if self.level.victoriesNeeded > 0 and
-     self.level.victoriesNeeded == self.level.victories then
-       gStateMachine:change('victory', {
-         levelNumber = self.levelNumber
-       })
+  if self.level:victorySatisfied() then
+    gStateMachine:change('victory', {
+      levelNumber = self.levelNumber
+    })
   end
 
   self.level:update(dt)
@@ -43,6 +42,10 @@ end
 
 function PlayState:reset()
   self:initializeLevel()
+end
+
+function PlayState:exit()
+  self.level:exit()
 end
 
 function PlayState:initializeLevel()

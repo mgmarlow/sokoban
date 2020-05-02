@@ -82,7 +82,15 @@ function PlayerWalkState:update(dt)
     end
   end
 
-  Signal.emit('player.move', nextPlayerPos)
+  Signal.emit('move', {
+    actions={
+      {
+        type='player.move',
+        -- TODO: add prev pos
+        payload=nextPlayerPos
+      }
+    }
+  })
 end
 
 function PlayerWalkState:render()

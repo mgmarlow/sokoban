@@ -15,7 +15,9 @@ function GameObject:init(def, params)
   if self.isMoveable then
     local handleMove = function(params)
       if self.id == params.id then
-        nextPos = params.to
+        local nextPos = params.to
+
+        Signal.emit('set.victories', params.victories)
         Timer.tween(0.1, self, {x = nextPos.x, y = nextPos.y})
       end
     end
@@ -39,6 +41,7 @@ end
 function GameObject:move(dir, level)
   local prevCollision = nil
   local nextCollision = nil
+  local victoryChange = 0
 
   -- Keep track of previous collisions
   for _, object in pairs(level.gameObjects) do
@@ -51,7 +54,8 @@ function GameObject:move(dir, level)
     x = self.x + (dir.x * TILE_WIDTH),
     y = self.y + (dir.y * TILE_HEIGHT),
     width = self.width,
-    height = self.height
+    height = self.height,
+    victories = 0
   }
 
   for _, object in pairs(level.gameObjects) do
@@ -87,18 +91,15 @@ function GameObject:move(dir, level)
     end
   end
 
-  -- TODO: backtrack victories on undo!
-  -- These should really be handled in the game object
-  -- event listener.
   if prevCollision ~= nil and prevCollision.isVictory then
-    Signal.emit('victories.down')
+    victoryChange = victoryChange - 1
   end
 
   if nextCollision and nextCollision.isVictory then
-    Signal.emit('victories.up')
+    victoryChange = victoryChange + 1
   end
 
-  return true, nextObject
+  return true, nextObject, victoryChange
 end
 
 function GameObject:collides(other)

@@ -38,16 +38,9 @@ function Level:init(params)
   self.victoriesNeeded = 0
 
   Signal.register(
-    'victories.up',
-    function()
-      self.victories = self.victories + 1
-    end
-  )
-
-  Signal.register(
-    'victories.down',
-    function()
-      self.victories = self.victories - 1
+    'set.victories',
+    function(victories)
+      self.victories = victories
     end
   )
 

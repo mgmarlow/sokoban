@@ -12,7 +12,8 @@ function PlayerPushState:enter(params)
 end
 
 function PlayerPushState:update(dt)
-  local moveable, nextObjectPos = self.target:move(self.dir, self.level)
+  local moveable, nextObjectPos, victoryChange =
+    self.target:move(self.dir, self.level)
 
   if moveable then
     Signal.emit(
@@ -23,11 +24,16 @@ function PlayerPushState:update(dt)
             type = 'object.move',
             snapshot = {
               id = self.target.id,
-              to = {x = self.target.x, y = self.target.y}
+              to = {
+                x = self.target.x,
+                y = self.target.y
+              },
+              victories = self.level.victories
             },
             payload = {
               id = self.target.id,
-              to = nextObjectPos
+              to = nextObjectPos,
+              victories = self.level.victories + victoryChange
             }
           },
           self.onMove()

@@ -61,8 +61,10 @@ function PlayerWalkState:update(dt)
 
   local expectedMove = {
     type='player.move',
+    snapshot={
+      to={x=self.player.x, y=self.player.y}
+    },
     payload={
-      from={x=self.player.x, y=self.player.y},
       to=nextPlayerPos
     }
   }

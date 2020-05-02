@@ -19,9 +19,12 @@ function PlayerPushState:update(dt)
       actions={
         {
           type='object.move',
+          snapshot={
+            id=self.target.id,
+            to={x=self.target.x,y=self.target.y}
+          },
           payload={
             id=self.target.id,
-            from={x=self.target.x,y=self.target.y},
             to=nextObjectPos
           }
         },

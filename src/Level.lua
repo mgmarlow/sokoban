@@ -76,6 +76,10 @@ function Level:render()
   end
 end
 
+function Level:enter()
+  self.moveRegistry:enter()
+end
+
 function Level:exit()
   self.moveRegistry:exit()
 end

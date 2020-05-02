@@ -6,6 +6,7 @@ function PlayState:enter(params)
 
   if params.level and params.player then
     self.level = params.level
+    self.level:enter()
     self.player = params.player
   else
     self:initializeLevel()
@@ -15,6 +16,10 @@ end
 function PlayState:update(dt)
   if love.keyboard.wasPressed('r') then
     self:reset()
+  end
+
+  if love.keyboard.wasPressed('x') then
+    self.level.moveRegistry:undo()
   end
 
   if love.keyboard.wasPressed('escape') then

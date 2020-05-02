@@ -18,14 +18,22 @@ function MoveRegistry:init()
   Signal.register('move', self.handler)
 end
 
+function MoveRegistry:enter()
+  Signal.register('move', self.handler)
+end
+
 function MoveRegistry:exit()
   Signal.remove('move', self.handler)
 end
 
 function MoveRegistry:undo()
-  -- TODO: unpack and delegate move
-  -- local latest = table.remove(self.moves)
-  -- Signal.emit('undo.move', latest)
+  if #self.moves > 0 then
+    local latest = table.remove(self.moves)
+
+    for _, action in ipairs(latest.actions) do
+      Signal.emit(action.type, action.snapshot)
+    end
+  end
 end
 
 function MoveRegistry:render()

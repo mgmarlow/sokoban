@@ -85,6 +85,9 @@ function GameObject:move(dir, level)
     end
   end
 
+  -- TODO: backtrack victories on undo!
+  -- These should really be handled in the game object
+  -- event listener.
   if prevCollision ~= nil and prevCollision.isVictory then
     Signal.emit('victories.down')
   end

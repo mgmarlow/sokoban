@@ -12,11 +12,14 @@ function GameObject:init(def, params)
   self.y = params.y
   self.tileIndex = params.tileIndex
 
-  Signal.register('object.move', function(nextPos)
-    if nextPos.id == self.id then
-      Timer.tween(0.1, self, {x=nextPos.x, y=nextPos.y})
-    end
-  end)
+  if self.isMoveable then
+    Signal.register('object.move', function(params)
+      if self.id == params.id then
+        nextPos = params.to
+        Timer.tween(0.1, self, {x=nextPos.x, y=nextPos.y})
+      end
+    end)
+  end
 end
 
 function GameObject:update(dt)
@@ -43,7 +46,6 @@ function GameObject:move(dir, level)
   end
 
   local nextObject = {
-    id=self.id,
     x=self.x + (dir.x * TILE_WIDTH),
     y=self.y + (dir.y * TILE_HEIGHT),
     width=self.width,

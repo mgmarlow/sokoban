@@ -59,6 +59,14 @@ function PlayerWalkState:update(dt)
     height=self.player.height
   }
 
+  local expectedMove = {
+    type='player.move',
+    payload={
+      from={x=self.player.x, y=self.player.y},
+      to=nextPlayerPos
+    }
+  }
+
   if self.level:outsideBounds(nextPlayerPos.x, nextPlayerPos.y) then
       -- Prevent movement
     return
@@ -69,9 +77,9 @@ function PlayerWalkState:update(dt)
     if object:collides(nextPlayerPos) and object.isSolid then
       if object.isMoveable then
         self.player:changeState('push', {
-          dir = dir,
-          target = object,
-          nextPlayerPos = nextPlayerPos
+          dir=dir,
+          target=object,
+          onMove=function() return expectedMove end
         })
         self.player:update(dt)
         return
@@ -83,13 +91,7 @@ function PlayerWalkState:update(dt)
   end
 
   Signal.emit('move', {
-    actions={
-      {
-        type='player.move',
-        -- TODO: add prev pos
-        payload=nextPlayerPos
-      }
-    }
+    actions={expectedMove}
   })
 end
 

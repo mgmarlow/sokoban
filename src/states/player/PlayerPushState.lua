@@ -8,7 +8,7 @@ end
 function PlayerPushState:enter(params)
   self.dir = params.dir
   self.target = params.target
-  self.nextPlayerPos = params.nextPlayerPos
+  self.onMove = params.onMove
 end
 
 function PlayerPushState:update(dt)
@@ -19,14 +19,13 @@ function PlayerPushState:update(dt)
       actions={
         {
           type='object.move',
-          -- TODO: add prev pos
-          payload=nextObjectPos
+          payload={
+            id=self.target.id,
+            from={x=self.target.x,y=self.target.y},
+            to=nextObjectPos
+          }
         },
-        {
-          type='player.move',
-          -- TODO: add prev pos
-          payload=self.nextPlayerPos
-        }
+        self.onMove()
       }
     })
   end

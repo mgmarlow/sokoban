@@ -52,26 +52,26 @@ function PlayerWalkState:update(dt)
 
   self.player.currentAnimation:reset()
 
-  local nextPlayer = {
+  local nextPlayerPos = {
     x=self.player.x + (dir.x * self.player.speed),
     y=self.player.y + (dir.y * self.player.speed),
     width=self.player.width,
     height=self.player.height
   }
 
-  if self.level:outsideBounds(nextPlayer.x, nextPlayer.y) then
+  if self.level:outsideBounds(nextPlayerPos.x, nextPlayerPos.y) then
       -- Prevent movement
     return
   end
 
   -- Check object collisions
   for _, object in pairs(self.level.gameObjects) do
-    if object:collides(nextPlayer) and object.isSolid then
+    if object:collides(nextPlayerPos) and object.isSolid then
       if object.isMoveable then
         self.player:changeState('push', {
           dir = dir,
           target = object,
-          nextPlayer = nextPlayer
+          nextPlayerPos = nextPlayerPos
         })
         self.player:update(dt)
         return
@@ -82,7 +82,7 @@ function PlayerWalkState:update(dt)
     end
   end
 
-  Timer.tween(0.1, self.player, {x=nextPlayer.x, y=nextPlayer.y})
+  Signal.emit('player.move', nextPlayerPos)
 end
 
 function PlayerWalkState:render()

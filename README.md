@@ -10,7 +10,7 @@ Currently only available for Windows.
 
 **Windows 10 build instructions**:
 
-1. Download `sokoban.zip`
+1. [Download `sokoban.zip`](https://github.com/mgmarlow/sokoban/releases)
 2. Extract `sokoban.zip` into a new directory
 3. Open the new directory and run `sokoban.exe`
 
@@ -18,6 +18,7 @@ Currently only available for Windows.
 
 - [x] build automation
 - [ ] undo
+- [ ] dev console level selection
 - [ ] portal block types
 - [ ] more juice
 - [ ] more levels

@@ -8,6 +8,10 @@ function Player:init(params)
 
   -- square tiles, speed will simply move to next tile
   self.speed = TILE_WIDTH
+
+  Signal.register('player.move', function(nextPos)
+    Timer.tween(0.1, self, {x=nextPos.x, y=nextPos.y})
+  end)
 end
 
 -- StateMachine assigned in the PlayState

@@ -1,7 +1,6 @@
 GameObject = Class{}
 
 function GameObject:init(def, params)
-  -- self.tileIndex = def.tileIndex
   self.width = def.width
   self.height = def.height
   self.isMoveable = def.isMoveable
@@ -12,6 +11,12 @@ function GameObject:init(def, params)
   self.x = params.x
   self.y = params.y
   self.tileIndex = params.tileIndex
+
+  Signal.register('object.move', function(nextPos)
+    if nextPos.id == self.id then
+      Timer.tween(0.1, self, {x=nextPos.x, y=nextPos.y})
+    end
+  end)
 end
 
 function GameObject:update(dt)
@@ -38,6 +43,7 @@ function GameObject:move(dir, level)
   end
 
   local nextObject = {
+    id=self.id,
     x=self.x + (dir.x * TILE_WIDTH),
     y=self.y + (dir.y * TILE_HEIGHT),
     width=self.width,
@@ -66,7 +72,7 @@ function GameObject:move(dir, level)
     end)()
 
     if state == 'blocked' then
-      return false
+      return false, nil
     end
 
     if state == 'valid' then
@@ -78,16 +84,14 @@ function GameObject:move(dir, level)
   end
 
   if prevCollision ~= nil and prevCollision.isVictory then
-    level.victories = level.victories - 1
+    Signal.emit('victories.down')
   end
 
   if nextCollision and nextCollision.isVictory then
-    level.victories = level.victories + 1
+    Signal.emit('victories.up')
   end
 
-  Timer.tween(0.1, self, {x=nextObject.x, y=nextObject.y})
-
-  return true
+  return true, nextObject
 end
 
 function GameObject:collides(other)

@@ -35,6 +35,14 @@ function Level:init(params)
   self.victories = 0
   self.victoriesNeeded = 0
 
+  Signal.register('victories.up', function()
+    self.victories = self.victories + 1
+  end)
+
+  Signal.register('victories.down', function()
+    self.victories = self.victories - 1
+  end)
+
   -- Convert tilemap into game objects
   self:initializeGameObjects()
 end

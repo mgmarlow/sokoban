@@ -8,17 +8,22 @@ end
 function PlayerPushState:enter(params)
   self.dir = params.dir
   self.target = params.target
-  self.nextPlayer = params.nextPlayer
+  self.nextPlayerPos = params.nextPlayerPos
 end
 
 function PlayerPushState:update(dt)
-  local success = self.target:move(self.dir, self.level)
+  local moveable, nextObjectPos = self.target:move(self.dir, self.level)
 
-  if success then
-    Timer.tween(0.1, self.player, {
-      x=self.nextPlayer.x,
-      y=self.nextPlayer.y
-    })
+  if moveable then
+    Signal.emit('object.move', nextObjectPos)
+    Signal.emit('player.move', self.nextPlayerPos)
+    -- TODO:
+    -- Signal.emit('move', {
+    --   playerFrom=,
+    --   playerTo=self.nextPlayerPos,
+    --   interactFrom=,
+    --   interactTo=nextObjectPos
+    -- })
   end
 
   self.player:changeState('walk')

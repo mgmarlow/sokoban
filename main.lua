@@ -28,6 +28,7 @@ function love.load()
   gStateMachine:change('start')
 
   love.keyboard.keysPressed = {}
+  gMoveRegistry = MoveRegistry{}
 end
 
 function love.update(dt)

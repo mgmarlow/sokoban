@@ -1,9 +1,11 @@
 Class = require 'lib/class'
 Timer = require 'lib/timer'
+Signal = require 'lib/signal'
 
 require 'src/constants'
 require 'src/data/gameObjects'
 require 'src/util'
+require 'src/MoveRegistry'
 require 'src/LevelLoader'
 require 'src/StateMachine'
 require 'src/Level'

@@ -1,0 +1,5 @@
+{
+  "lua.format.singleQuote": true,
+  "lua.format.indentCount": 2,
+  "lua.format.lineWidth": 75
+}

@@ -1,4 +1,4 @@
-PlayState = Class{__includes = BaseState}
+PlayState = Class {__includes = BaseState}
 
 function PlayState:enter(params)
   self.levelNumber = params.levelNumber
@@ -23,17 +23,23 @@ function PlayState:update(dt)
   end
 
   if love.keyboard.wasPressed('escape') then
-    gStateMachine:change('pause', {
-      tilemap = self.tilemap,
-      player = self.player,
-      level = self.level
-    })
+    gStateMachine:change(
+      'pause',
+      {
+        tilemap = self.tilemap,
+        player = self.player,
+        level = self.level
+      }
+    )
   end
 
   if self.level:victorySatisfied() then
-    gStateMachine:change('victory', {
-      levelNumber = self.levelNumber
-    })
+    gStateMachine:change(
+      'victory',
+      {
+        levelNumber = self.levelNumber
+      }
+    )
   end
 
   self.level:update(dt)
@@ -54,16 +60,24 @@ function PlayState:exit()
 end
 
 function PlayState:initializeLevel()
-  self.level = Level{source = self.tilemap}
-  self.player = Player {
+  self.level = Level {source = self.tilemap}
+  self.player =
+    Player {
     x = self.level.playerX,
     y = self.level.playerY
   }
 
-  self.player.stateMachine = StateMachine {
-    ['walk'] = function() return PlayerWalkState(self.player, self.level) end,
-    ['idle'] = function() return PlayerIdleState(self.player) end,
-    ['push'] = function() return PlayerPushState(self.player, self.level) end,
+  self.player.stateMachine =
+    StateMachine {
+    ['walk'] = function()
+      return PlayerWalkState(self.player, self.level)
+    end,
+    ['idle'] = function()
+      return PlayerIdleState(self.player)
+    end,
+    ['push'] = function()
+      return PlayerPushState(self.player, self.level)
+    end
   }
   self.player:changeState('idle')
 end

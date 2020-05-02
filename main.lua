@@ -19,11 +19,20 @@ function love.load()
 
   quads = generateQuads(gTextures.tilesheet, TILE_WIDTH, TILE_HEIGHT)
 
-  gStateMachine = StateMachine {
-    ['start'] = function() return StartState() end,
-    ['play'] = function() return PlayState() end,
-    ['victory'] = function() return VictoryState() end,
-    ['pause'] = function() return PauseState() end
+  gStateMachine =
+    StateMachine {
+    ['start'] = function()
+      return StartState()
+    end,
+    ['play'] = function()
+      return PlayState()
+    end,
+    ['victory'] = function()
+      return VictoryState()
+    end,
+    ['pause'] = function()
+      return PauseState()
+    end
   }
   gStateMachine:change('start')
 

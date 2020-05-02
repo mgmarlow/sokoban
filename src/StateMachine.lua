@@ -1,11 +1,15 @@
-StateMachine = Class{}
+StateMachine = Class {}
 
 function StateMachine:init(states)
 	self.empty = {
-		render = function() end,
-		update = function() end,
-		enter = function() end,
-		exit = function() end
+		render = function()
+		end,
+		update = function()
+		end,
+		enter = function()
+		end,
+		exit = function()
+		end
 	}
 	self.states = states or {} -- [name] -> [function that returns states]
 	self.current = self.empty

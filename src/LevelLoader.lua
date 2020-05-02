@@ -1,8 +1,8 @@
-LevelLoader = Class{}
+LevelLoader = Class {}
 
 -- http://lua-users.org/wiki/StringRecipes
 local function endsWith(str, ending)
-   return ending == "" or str:sub(-#ending) == ending
+  return ending == '' or str:sub(-(#ending)) == ending
 end
 
 function LevelLoader:init()
@@ -17,11 +17,11 @@ function LevelLoader:init()
 end
 
 function LevelLoader:load(n)
-  path = 'levels/level'..tostring(n)..'.lua'
+  path = 'levels/level' .. tostring(n) .. '.lua'
   chunk, err = love.filesystem.load(path)
 
   if err then
-    print('error loading '..path)
+    print('error loading ' .. path)
     print(err)
     love.event.quit()
     return
@@ -29,5 +29,3 @@ function LevelLoader:load(n)
 
   return chunk()
 end
-
-

@@ -1,10 +1,10 @@
-Level = Class{}
+Level = Class {}
 
 local function contains(source, value)
   if type(source) == 'table' then
     for i = 1, #source do
-      if source[i] == value then 
-         return true
+      if source[i] == value then
+        return true
       end
     end
 
@@ -32,18 +32,24 @@ function Level:init(params)
   self.xOffset = (WINDOW_WIDTH - (TILE_WIDTH * self.width)) / 2
   self.yOffset = (WINDOW_HEIGHT - (TILE_HEIGHT * self.height)) / 2
 
-  self.moveRegistry = MoveRegistry{}
+  self.moveRegistry = MoveRegistry {}
 
   self.victories = 0
   self.victoriesNeeded = 0
 
-  Signal.register('victories.up', function()
-    self.victories = self.victories + 1
-  end)
+  Signal.register(
+    'victories.up',
+    function()
+      self.victories = self.victories + 1
+    end
+  )
 
-  Signal.register('victories.down', function()
-    self.victories = self.victories - 1
-  end)
+  Signal.register(
+    'victories.down',
+    function()
+      self.victories = self.victories - 1
+    end
+  )
 
   -- Convert tilemap into game objects
   self:initializeGameObjects()
@@ -86,7 +92,7 @@ end
 
 function Level:victorySatisfied()
   return self.victoriesNeeded > 0 and
-         self.victoriesNeeded == self.victories
+    self.victoriesNeeded == self.victories
 end
 
 -- TODO: Move this into its own file
@@ -99,7 +105,7 @@ function Level:initializeGameObjects()
 
   for row = 1, self.height do
     for col = 1, self.width do
-      local id = tostring(row) .. ":" .. tostring(col)
+      local id = tostring(row) .. ':' .. tostring(col)
       local tileIndex = ((row - 1) * self.objectLayer.height) + col
       local quadIndex = self.objectLayer.data[tileIndex]
 
@@ -114,10 +120,9 @@ function Level:initializeGameObjects()
       }
 
       if contains(wallDef.tileIndex, quadIndex) then
-        table.insert(self.gameObjects, GameObject(
-            wallDef,
-            gameObjectParams
-          )
+        table.insert(
+          self.gameObjects,
+          GameObject(wallDef, gameObjectParams)
         )
       elseif quadIndex == 73 then
         -- Don't append the player to list of game objects
@@ -125,17 +130,15 @@ function Level:initializeGameObjects()
         self.playerX = x
         self.playerY = y
       elseif contains(boxDef.tileIndex, quadIndex) then
-        table.insert(self.gameObjects, GameObject(
-            boxDef,
-            gameObjectParams
-          )
+        table.insert(
+          self.gameObjects,
+          GameObject(boxDef, gameObjectParams)
         )
       elseif contains(destDef.tileIndex, quadIndex) then
         self.victoriesNeeded = self.victoriesNeeded + 1
-        table.insert(self.gameObjects, GameObject(
-            destDef,
-            gameObjectParams
-          )
+        table.insert(
+          self.gameObjects,
+          GameObject(destDef, gameObjectParams)
         )
       end
     end
@@ -143,8 +146,7 @@ function Level:initializeGameObjects()
 end
 
 function Level:outsideBounds(x, y)
-  return x <= self.xOffset - 1 or
-         x > self.xOffset + self.pixelWidth - 1 or
-         y <= self.yOffset - 1 or
-         y > self.yOffset + self.pixelHeight - 1
+  return x <= self.xOffset - 1 or x > self.xOffset + self.pixelWidth - 1 or
+    y <= self.yOffset - 1 or
+    y > self.yOffset + self.pixelHeight - 1
 end

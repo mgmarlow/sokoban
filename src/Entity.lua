@@ -1,4 +1,4 @@
-Entity = Class{}
+Entity = Class {}
 
 function Entity:init(params)
   self.x = params.x

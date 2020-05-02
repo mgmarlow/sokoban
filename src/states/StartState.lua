@@ -1,10 +1,13 @@
-StartState = Class{__includes = BaseState}
+StartState = Class {__includes = BaseState}
 
 function StartState:update(dt)
   if love.keyboard.wasPressed('z') then
-    gStateMachine:change('play', {
-      levelNumber = 1
-    })
+    gStateMachine:change(
+      'play',
+      {
+        levelNumber = 1
+      }
+    )
   end
 
   if love.keyboard.wasPressed('escape') then
@@ -15,14 +18,24 @@ end
 function StartState:render()
   -- title
   love.graphics.setFont(gFonts['large'])
-  love.graphics.printf("Sokoban", 0, WINDOW_HEIGHT / 3,
-    WINDOW_WIDTH, 'center')
-  
+  love.graphics.printf(
+    'Sokoban',
+    0,
+    WINDOW_HEIGHT / 3,
+    WINDOW_WIDTH,
+    'center'
+  )
+
   -- instructions
   love.graphics.setFont(gFonts['medium'])
   love.graphics.setColor(0, 255, 0, 255)
-  love.graphics.printf("Press Z to start", 0, WINDOW_HEIGHT / 2 + 70,
-    WINDOW_WIDTH, 'center')
+  love.graphics.printf(
+    'Press Z to start',
+    0,
+    WINDOW_HEIGHT / 2 + 70,
+    WINDOW_WIDTH,
+    'center'
+  )
 
   -- reset the color
   love.graphics.setColor(255, 255, 255, 255)

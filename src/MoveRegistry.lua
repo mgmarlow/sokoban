@@ -1,4 +1,4 @@
-MoveRegistry = Class{}
+MoveRegistry = Class {}
 
 local function delegateMove(payload)
   -- todo

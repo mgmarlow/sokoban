@@ -1,4 +1,4 @@
-PlayerWalkState = Class{__includes = BaseState}
+PlayerWalkState = Class {__includes = BaseState}
 
 local movingAnimations = {
   ['left'] = Animation {
@@ -16,7 +16,7 @@ local movingAnimations = {
   ['down'] = Animation {
     frames = {67, 68, 66},
     interval = 0.2
-  },
+  }
 }
 
 function PlayerWalkState:init(player, level)
@@ -33,16 +33,16 @@ function PlayerWalkState:update(dt)
 
   if love.keyboard.wasPressed('left') then
     self.player.currentAnimation = movingAnimations.left
-    dir = {x=-1, y=0}
+    dir = {x = -1, y = 0}
   elseif love.keyboard.wasPressed('right') then
     self.player.currentAnimation = movingAnimations.right
-    dir = {x=1, y=0}
+    dir = {x = 1, y = 0}
   elseif love.keyboard.wasPressed('up') then
     self.player.currentAnimation = movingAnimations.up
-    dir = {x=0, y=-1}
+    dir = {x = 0, y = -1}
   elseif love.keyboard.wasPressed('down') then
     self.player.currentAnimation = movingAnimations.down
-    dir = {x=0, y=1}
+    dir = {x = 0, y = 1}
   else
   end
 
@@ -53,24 +53,24 @@ function PlayerWalkState:update(dt)
   self.player.currentAnimation:reset()
 
   local nextPlayerPos = {
-    x=self.player.x + (dir.x * self.player.speed),
-    y=self.player.y + (dir.y * self.player.speed),
-    width=self.player.width,
-    height=self.player.height
+    x = self.player.x + (dir.x * self.player.speed),
+    y = self.player.y + (dir.y * self.player.speed),
+    width = self.player.width,
+    height = self.player.height
   }
 
   local expectedMove = {
-    type='player.move',
-    snapshot={
-      to={x=self.player.x, y=self.player.y}
+    type = 'player.move',
+    snapshot = {
+      to = {x = self.player.x, y = self.player.y}
     },
-    payload={
-      to=nextPlayerPos
+    payload = {
+      to = nextPlayerPos
     }
   }
 
   if self.level:outsideBounds(nextPlayerPos.x, nextPlayerPos.y) then
-      -- Prevent movement
+    -- Prevent movement
     return
   end
 
@@ -78,11 +78,16 @@ function PlayerWalkState:update(dt)
   for _, object in pairs(self.level.gameObjects) do
     if object:collides(nextPlayerPos) and object.isSolid then
       if object.isMoveable then
-        self.player:changeState('push', {
-          dir=dir,
-          target=object,
-          onMove=function() return expectedMove end
-        })
+        self.player:changeState(
+          'push',
+          {
+            dir = dir,
+            target = object,
+            onMove = function()
+              return expectedMove
+            end
+          }
+        )
         self.player:update(dt)
         return
       end
@@ -92,9 +97,12 @@ function PlayerWalkState:update(dt)
     end
   end
 
-  Signal.emit('move', {
-    actions={expectedMove}
-  })
+  Signal.emit(
+    'move',
+    {
+      actions = {expectedMove}
+    }
+  )
 end
 
 function PlayerWalkState:render()

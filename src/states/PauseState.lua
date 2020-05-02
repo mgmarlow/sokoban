@@ -1,4 +1,4 @@
-PauseState = Class{__includes = BaseState}
+PauseState = Class {__includes = BaseState}
 
 function PauseState:enter(params)
   self.tilemap = params.tilemap
@@ -12,11 +12,14 @@ function PauseState:update(dt)
   end
 
   if love.keyboard.wasPressed('return') then
-    gStateMachine:change('play', {
-      tilemap = self.tilemap,
-      player = self.player,
-      level = self.level
-    })
+    gStateMachine:change(
+      'play',
+      {
+        tilemap = self.tilemap,
+        player = self.player,
+        level = self.level
+      }
+    )
   end
 end
 

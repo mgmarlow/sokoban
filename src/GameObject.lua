@@ -1,4 +1,4 @@
-GameObject = Class{}
+GameObject = Class {}
 
 function GameObject:init(def, params)
   self.width = def.width
@@ -13,12 +13,14 @@ function GameObject:init(def, params)
   self.tileIndex = params.tileIndex
 
   if self.isMoveable then
-    Signal.register('object.move', function(params)
+    local handleMove = function(params)
       if self.id == params.id then
         nextPos = params.to
-        Timer.tween(0.1, self, {x=nextPos.x, y=nextPos.y})
+        Timer.tween(0.1, self, {x = nextPos.x, y = nextPos.y})
       end
-    end)
+    end
+
+    Signal.register('object.move', handleMove)
   end
 end
 
@@ -46,10 +48,10 @@ function GameObject:move(dir, level)
   end
 
   local nextObject = {
-    x=self.x + (dir.x * TILE_WIDTH),
-    y=self.y + (dir.y * TILE_HEIGHT),
-    width=self.width,
-    height=self.height
+    x = self.x + (dir.x * TILE_WIDTH),
+    y = self.y + (dir.y * TILE_HEIGHT),
+    width = self.width,
+    height = self.height
   }
 
   for _, object in pairs(level.gameObjects) do
@@ -100,11 +102,16 @@ function GameObject:move(dir, level)
 end
 
 function GameObject:collides(other)
-  if self.x > other.x + other.width - 1 or other.x > self.x + self.width - 1 then
+  if
+    self.x > other.x + other.width - 1 or other.x > self.x + self.width - 1
+   then
     return false
   end
 
-  if self.y > other.y + other.height - 1 or other.y > self.y + self.height - 1 then
+  if
+    self.y > other.y + other.height - 1 or
+      other.y > self.y + self.height - 1
+   then
     return false
   end
 

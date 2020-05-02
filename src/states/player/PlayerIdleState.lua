@@ -1,6 +1,7 @@
-PlayerIdleState = Class{__includes = BaseState}
+PlayerIdleState = Class {__includes = BaseState}
 
-local idleAnimation = Animation {
+local idleAnimation =
+  Animation {
   frames = {66},
   interval = 1
 }
@@ -11,10 +12,13 @@ function PlayerIdleState:init(player)
 end
 
 function PlayerIdleState:update(dt)
-  if love.keyboard.wasPressed('left') or love.keyboard.wasPressed('right') or
-      love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
-        self.player:changeState('walk')
-        self.player:update(dt)
+  if
+    love.keyboard.wasPressed('left') or love.keyboard.wasPressed('right') or
+      love.keyboard.wasPressed('up') or
+      love.keyboard.wasPressed('down')
+   then
+    self.player:changeState('walk')
+    self.player:update(dt)
   end
 end
 

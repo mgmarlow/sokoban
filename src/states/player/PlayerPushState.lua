@@ -1,4 +1,4 @@
-PlayerPushState = Class{__includes = BaseState}
+PlayerPushState = Class {__includes = BaseState}
 
 function PlayerPushState:init(player, level)
   self.player = player
@@ -15,22 +15,25 @@ function PlayerPushState:update(dt)
   local moveable, nextObjectPos = self.target:move(self.dir, self.level)
 
   if moveable then
-    Signal.emit('move', {
-      actions={
-        {
-          type='object.move',
-          snapshot={
-            id=self.target.id,
-            to={x=self.target.x,y=self.target.y}
+    Signal.emit(
+      'move',
+      {
+        actions = {
+          {
+            type = 'object.move',
+            snapshot = {
+              id = self.target.id,
+              to = {x = self.target.x, y = self.target.y}
+            },
+            payload = {
+              id = self.target.id,
+              to = nextObjectPos
+            }
           },
-          payload={
-            id=self.target.id,
-            to=nextObjectPos
-          }
-        },
-        self.onMove()
+          self.onMove()
+        }
       }
-    })
+    )
   end
 
   self.player:changeState('walk')

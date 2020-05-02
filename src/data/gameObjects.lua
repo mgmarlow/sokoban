@@ -8,14 +8,13 @@
   individual tile to get its index. Add 1 to this
   value and you'll get the exported *.lua equivalent.
 --]]
-
 GAME_OBJECT_DEFS = {
   ['wall'] = {
     tileIndex = {20, 7, 2},
     isMoveable = false,
     isSolid = true,
     isVictory = false,
-    width = TILE_WIDTH ,
+    width = TILE_WIDTH,
     height = TILE_HEIGHT
   },
   ['box'] = {

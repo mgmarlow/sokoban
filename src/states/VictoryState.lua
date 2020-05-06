@@ -1,27 +1,17 @@
 VictoryState = Class {__includes = BaseState}
 
--- TODO: remove this with level select. This will
--- just loop levels as they are completed.
-local function getNextLevel(n)
-  if n > gLoader.numLevels then
-    return 1
-  end
-
-  return n
-end
-
 function VictoryState:enter(params)
   self.levelNumber = params.levelNumber
 end
 
 function VictoryState:update(dt)
-  local next = getNextLevel(self.levelNumber + 1)
+  local next = self.levelNumber + 1
 
   if love.keyboard.wasPressed('z') then
     gStateMachine:change(
-      'play',
+      'level_select',
       {
-        levelNumber = next
+        selectedLevel = next
       }
     )
   end

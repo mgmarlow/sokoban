@@ -24,6 +24,9 @@ function love.load()
     ['start'] = function()
       return StartState()
     end,
+    ['level_select'] = function()
+      return LevelSelectState()
+    end,
     ['play'] = function()
       return PlayState()
     end,

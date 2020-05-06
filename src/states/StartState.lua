@@ -3,7 +3,7 @@ StartState = Class {__includes = BaseState}
 function StartState:update(dt)
   if love.keyboard.wasPressed('z') then
     gStateMachine:change(
-      'play',
+      'level_select',
       {
         levelNumber = 1
       }

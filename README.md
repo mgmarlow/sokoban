@@ -17,12 +17,12 @@ Currently only available for Windows.
 ## Todos
 
 - [x] build automation
-- [ ] undo
+- [x] undo
 - [ ] dev console level selection
 - [ ] push block into water tile to allow passage
+- [ ] more levels
 - [ ] portal block types
 - [ ] more juice
-- [ ] more levels
 
 ## Prior Art
 

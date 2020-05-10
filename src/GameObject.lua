@@ -6,6 +6,9 @@ function GameObject:init(def, params)
   self.isMoveable = def.isMoveable
   self.isSolid = def.isSolid
   self.isVictory = def.isVictory
+  self.type = def.type
+  self.zIndex = def.zIndex or 0
+  self.isPluggable = def.isPluggable or false
 
   self.id = params.id
   self.x = params.x
@@ -15,15 +18,29 @@ function GameObject:init(def, params)
   if self.isMoveable then
     local handleMove = function(params)
       if self.id == params.id then
-        local nextPos = params.to
+        local nextObj = params.to
 
         Signal.emit('set.victories', params.victories)
-        Timer.tween(0.1, self, {x = nextPos.x, y = nextPos.y})
+        Timer.tween(0.1, self, {x = nextObj.x, y = nextObj.y})
       end
     end
 
     Signal.register('object.move', handleMove)
   end
+
+  local handlePlug = function(params)
+    -- If an object is plugged it is not moveable
+    if self.id == params.pluggedId then
+      self.isMoveable = not params.plugged
+      self.isSolid = not params.plugged
+    end
+
+    if self.id == params.pitId then
+      self.isPluggable = not params.plugged
+    end
+  end
+
+  Signal.register('object.plug', handlePlug)
 end
 
 function GameObject:update(dt)
@@ -80,7 +97,7 @@ function GameObject:move(dir, level)
     end)()
 
     if state == 'blocked' then
-      return false, nil
+      return false
     end
 
     if state == 'valid' then
@@ -99,7 +116,7 @@ function GameObject:move(dir, level)
     victoryChange = victoryChange + 1
   end
 
-  return true, nextObject, victoryChange
+  return true, nextObject, nextCollision, victoryChange
 end
 
 function GameObject:collides(other)

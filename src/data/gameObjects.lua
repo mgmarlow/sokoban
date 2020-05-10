@@ -10,6 +10,7 @@
 --]]
 GAME_OBJECT_DEFS = {
   ['wall'] = {
+    type = 'wall',
     tileIndex = {20, 7, 2},
     isMoveable = false,
     isSolid = true,
@@ -17,15 +18,28 @@ GAME_OBJECT_DEFS = {
     width = TILE_WIDTH,
     height = TILE_HEIGHT
   },
+  ['pit'] = {
+    type = 'pit',
+    tileIndex = 12,
+    isMoveable = false,
+    isSolid = false,
+    isPluggable = true,
+    isVictory = false,
+    width = TILE_WIDTH,
+    height = TILE_HEIGHT
+  },
   ['box'] = {
+    type = 'box',
     tileIndex = 8,
     isMoveable = true,
     isSolid = true,
     isVictory = false,
     width = TILE_WIDTH,
-    height = TILE_HEIGHT
+    height = TILE_HEIGHT,
+    zIndex = 1
   },
   ['destination'] = {
+    type = 'dest',
     tileIndex = 42,
     isMoveable = false,
     isSolid = false,

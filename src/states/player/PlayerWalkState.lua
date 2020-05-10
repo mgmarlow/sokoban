@@ -76,6 +76,11 @@ function PlayerWalkState:update(dt)
 
   -- Check object collisions
   for _, object in pairs(self.level.gameObjects) do
+    if object:collides(nextPlayerPos) and object.isPluggable then
+      -- Prevent movement
+      return
+    end
+
     if object:collides(nextPlayerPos) and object.isSolid then
       if object.isMoveable then
         self.player:changeState(

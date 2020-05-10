@@ -12,34 +12,54 @@ function PlayerPushState:enter(params)
 end
 
 function PlayerPushState:update(dt)
-  local moveable, nextObjectPos, victoryChange =
+  local moveable, nextObject, nextCollision, victoryChange =
     self.target:move(self.dir, self.level)
 
+  -- This should really just emit generic events that are well-named.
+  -- e.g. payload is currentCollision, nextCollision, prevCollision
+  -- and special boolean values don't need to be sent over, instead
+  -- object.move/undo.object.move, etc.
   if moveable then
-    Signal.emit(
-      'move',
+    local actions = {
       {
-        actions = {
-          {
-            type = 'object.move',
-            snapshot = {
-              id = self.target.id,
-              to = {
-                x = self.target.x,
-                y = self.target.y
-              },
-              victories = self.level.victories
-            },
-            payload = {
-              id = self.target.id,
-              to = nextObjectPos,
-              victories = self.level.victories + victoryChange
-            }
+        type = 'object.move',
+        snapshot = {
+          id = self.target.id,
+          to = {
+            x = self.target.x,
+            y = self.target.y
           },
-          self.onMove()
+          victories = self.level.victories
+        },
+        payload = {
+          id = self.target.id,
+          to = nextObject,
+          victories = self.level.victories + victoryChange
         }
-      }
-    )
+      },
+      self.onMove()
+    }
+
+    if nextCollision and nextCollision.isPluggable then
+      table.insert(
+        actions,
+        {
+          type = 'object.plug',
+          snapshot = {
+            plugged = false,
+            pluggedId = self.target.id,
+            pitId = nextCollision.id
+          },
+          payload = {
+            plugged = true,
+            pluggedId = self.target.id,
+            pitId = nextCollision.id
+          }
+        }
+      )
+    end
+
+    Signal.emit('move', {actions = actions})
   end
 
   self.player:changeState('walk')

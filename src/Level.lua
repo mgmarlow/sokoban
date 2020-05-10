@@ -70,8 +70,20 @@ function Level:render()
     end
   end
 
-  for i = 1, #self.gameObjects do
-    self.gameObjects[i]:render()
+  -- Separate rendering for different game object layers
+  -- (prioritize moveable blocks)
+  local topRender = {}
+
+  for _, obj in ipairs(self.gameObjects) do
+    if obj.zIndex == 0 then
+      obj:render()
+    else
+      table.insert(topRender, obj)
+    end
+  end
+
+  for _, topObj in ipairs(topRender) do
+    topObj:render()
   end
 end
 
@@ -95,6 +107,7 @@ function Level:initializeGameObjects()
   local wallDef = GAME_OBJECT_DEFS['wall']
   local boxDef = GAME_OBJECT_DEFS['box']
   local destDef = GAME_OBJECT_DEFS['destination']
+  local pitDef = GAME_OBJECT_DEFS['pit']
 
   for row = 1, self.height do
     for col = 1, self.width do
@@ -132,6 +145,11 @@ function Level:initializeGameObjects()
         table.insert(
           self.gameObjects,
           GameObject(destDef, gameObjectParams)
+        )
+      elseif contains(pitDef.tileIndex, quadIndex) then
+        table.insert(
+          self.gameObjects,
+          GameObject(pitDef, gameObjectParams)
         )
       end
     end

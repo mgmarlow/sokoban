@@ -16,13 +16,9 @@ Currently only available for Windows.
 
 ## Todos
 
-- [x] build automation
-- [x] undo
-- [x] level selection
-- [ ] water + block interaction
-- [ ] more levels
-- [ ] portal block types
-- [ ] more juice
+- more levels
+- more block types
+- more juice
 
 ## Prior Art
 

@@ -1,6 +1,6 @@
 # Sokoban
 
-Sokoban implemented with [Love2D](https://love2d.org/).
+A block-pushing puzzle game.
 
 ## Play the Game
 

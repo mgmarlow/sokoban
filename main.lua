@@ -10,7 +10,11 @@ function love.load()
   gFonts = {
     ['small'] = love.graphics.newFont('fonts/cardenio_modern.otf', 18),
     ['medium'] = love.graphics.newFont('fonts/cardenio_modern.otf', 32),
-    ['large'] = love.graphics.newFont('fonts/cardenio_modern.otf', 48)
+    ['medium-large'] = love.graphics.newFont(
+      'fonts/cardenio_modern.otf',
+      64
+    ),
+    ['large'] = love.graphics.newFont('fonts/cardenio_modern.otf', 142)
   }
 
   gTextures = {
@@ -62,7 +66,6 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.draw()
+  love.graphics.setBackgroundColor(45 / 255, 77 / 255, 149 / 255, 50 / 100)
   gStateMachine:render()
-
-  -- displayFPS()
 end

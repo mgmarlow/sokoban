@@ -59,14 +59,16 @@ function Level:render()
 
   for row = 1, self.height do
     for col = 1, self.width do
-      local tileIndex = ((row - 1) * self.mapLayer.height) + col
+      local tileIndex = ((row - 1) * self.mapLayer.width) + col
 
-      love.graphics.draw(
-        gTextures.tilesheet,
-        quads[self.mapLayer.data[tileIndex]],
-        self.xOffset + (col - 1) * TILE_WIDTH,
-        self.yOffset + (row - 1) * TILE_HEIGHT
-      )
+      if self.mapLayer.data[tileIndex] ~= 0 then
+        love.graphics.draw(
+          gTextures.tilesheet,
+          quads[self.mapLayer.data[tileIndex]],
+          self.xOffset + (col - 1) * TILE_WIDTH,
+          self.yOffset + (row - 1) * TILE_HEIGHT
+        )
+      end
     end
   end
 
@@ -112,7 +114,7 @@ function Level:initializeGameObjects()
   for row = 1, self.height do
     for col = 1, self.width do
       local id = tostring(row) .. ':' .. tostring(col)
-      local tileIndex = ((row - 1) * self.objectLayer.height) + col
+      local tileIndex = ((row - 1) * self.objectLayer.width) + col
       local quadIndex = self.objectLayer.data[tileIndex]
 
       local x = self.xOffset + (col - 1) * TILE_WIDTH

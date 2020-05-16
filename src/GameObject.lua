@@ -28,6 +28,7 @@ function GameObject:init(def, params)
     Signal.register('object.move', handleMove)
   end
 
+  -- TODO: update tile to look plugged
   local handlePlug = function(params)
     -- If an object is plugged it is not moveable
     if self.id == params.pluggedId then

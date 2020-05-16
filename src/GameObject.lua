@@ -34,8 +34,10 @@ function GameObject:init(def, params)
     if self.id == params.pluggedId then
       if params.plugged then
         self.tileIndex = 60
+        self.zIndex = 0
       else
         self.tileIndex = 8
+        self.zIndex = 1
       end
 
       self.isMoveable = not params.plugged

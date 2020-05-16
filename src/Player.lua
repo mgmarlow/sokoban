@@ -13,7 +13,8 @@ function Player:init(params)
     'player.move',
     function(params)
       nextPos = params.to
-      Timer.tween(0.1, self, {x = nextPos.x, y = nextPos.y})
+      self.x = nextPos.x
+      self.y = nextPos.y
     end
   )
 end

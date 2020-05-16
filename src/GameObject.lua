@@ -21,7 +21,8 @@ function GameObject:init(def, params)
         local nextObj = params.to
 
         Signal.emit('set.victories', params.victories)
-        Timer.tween(0.1, self, {x = nextObj.x, y = nextObj.y})
+        self.x = nextObj.x
+        self.y = nextObj.y
       end
     end
 

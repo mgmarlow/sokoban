@@ -37,7 +37,7 @@ function MoveRegistry:undo()
 end
 
 function MoveRegistry:render()
-  love.graphics.setColor(0, 255, 0, 255)
+  love.graphics.setColor(1, 1, 1, 1)
+  love.graphics.setFont(gFonts['medium'])
   love.graphics.print('Moves: ' .. tostring(#self.moves), 5, 5)
-  love.graphics.setColor(255, 255, 255, 255)
 end

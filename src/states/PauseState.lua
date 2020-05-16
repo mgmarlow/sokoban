@@ -21,30 +21,33 @@ function PauseState:update(dt)
       }
     )
   end
+
+  if love.keyboard.wasPressed('x') then
+    gStateMachine:change(
+      'level_select',
+      {
+        selectedLevel = self.next
+      }
+    )
+  end
 end
 
 function PauseState:render()
   self.level:render()
   self.player:render()
 
-  love.graphics.setColor(0, 0, 0, 0.5)
-  love.graphics.rectangle(
-    'fill',
-    50,
-    50,
-    WINDOW_WIDTH - 100,
-    WINDOW_HEIGHT - 100
-  )
+  love.graphics.setColor(0, 0, 0, 0.6)
+  love.graphics.rectangle('fill', 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
 
   love.graphics.setColor(1, 1, 1, 1)
-  love.graphics.setFont(gFonts['medium-large'])
-  love.graphics.printf('Paused!', 0, 150, WINDOW_WIDTH, 'center')
+  love.graphics.setFont(gFonts['large'])
+  love.graphics.printf('Paused!', 0, 50, WINDOW_WIDTH, 'center')
 
   love.graphics.setFont(gFonts['medium'])
   love.graphics.printf(
     "Hit 'escape' again to resume,\n'enter' to exit,\n'x' to go to level select.",
     0,
-    250,
+    WINDOW_HEIGHT / 2 - 50,
     WINDOW_WIDTH,
     'center'
   )

@@ -10,13 +10,8 @@ function VictoryState:update(dt)
     gStateMachine:change('play', {levelNumber = self.next})
   end
 
-  if love.keyboard.wasPressed('x') then
-    gStateMachine:change(
-      'level_select',
-      {
-        selectedLevel = self.next
-      }
-    )
+  if not self.showNext and love.keyboard.wasPressed('x') then
+    gStateMachine:change('level_select', {})
   end
 
   if love.keyboard.wasPressed('escape') then
@@ -25,6 +20,7 @@ function VictoryState:update(dt)
 end
 
 function VictoryState:render()
+  love.graphics.setColor(1, 1, 1, 1)
   -- title
   love.graphics.setFont(gFonts['large'])
   love.graphics.printf(
@@ -37,7 +33,6 @@ function VictoryState:render()
 
   -- instructions
   love.graphics.setFont(gFonts['medium'])
-  love.graphics.setColor(0, 255, 0, 255)
 
   if self.showNext then
     love.graphics.printf(
@@ -47,15 +42,15 @@ function VictoryState:render()
       WINDOW_WIDTH,
       'center'
     )
+  else
+    love.graphics.printf(
+      'Press X to go to level select',
+      0,
+      WINDOW_HEIGHT / 2 + 70,
+      WINDOW_WIDTH,
+      'center'
+    )
   end
-
-  love.graphics.printf(
-    'Press X to go to level select',
-    0,
-    WINDOW_HEIGHT / 2 + 120,
-    WINDOW_WIDTH,
-    'center'
-  )
 
   -- reset the color
   love.graphics.setColor(255, 255, 255, 255)

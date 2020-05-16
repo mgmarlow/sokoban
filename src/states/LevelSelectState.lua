@@ -32,21 +32,34 @@ function LevelSelectState:update(dt)
 end
 
 function LevelSelectState:render()
-  love.graphics.setFont(gFonts['medium'])
+  love.graphics.setFont(gFonts['medium-large'])
+  love.graphics.printf('Select a level', 0, 20, WINDOW_WIDTH, 'center')
 
-  for i = 1, self.levels do
-    if i == self.selectedLevel then
-      love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setFont(gFonts['medium'])
+  love.graphics.printf(
+    '(use up and down arrow keys)',
+    0,
+    100,
+    WINDOW_WIDTH,
+    'center'
+  )
+
+  for i = 0, self.levels - 1 do
+    if i + 1 == self.selectedLevel then
+      love.graphics.setColor(0, 1, 0, 1)
     else
-      love.graphics.setColor(0, 255, 0, 255)
+      love.graphics.setColor(1, 1, 1, 1)
     end
 
+    local spacing = 100
+    local columnNumber = i % 3
+
     love.graphics.printf(
-      'level ' .. i,
-      0,
-      50 + i * 45,
-      WINDOW_WIDTH
-      -- 'center'
+      'level ' .. i + 1,
+      (spacing * columnNumber) - 100,
+      200 + math.floor(i / 3) * 50,
+      WINDOW_WIDTH,
+      'center'
     )
   end
 
